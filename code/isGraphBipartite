@@ -1,24 +1,28 @@
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
+
         odds = [0] * len(graph)
+        # A ideia é dividir o grafo entre par e ímpar, com cada nó adjacente tendo um valor diferente.
+
         def bipartite (i):
             if odds[i]:
                 return True
             odds[i] = -1
+            # Se o nó ja foi visitado, retorna True. Se não, marca como par e inicia a BFS.
             q = deque([i])
 
             while q:
                 i = q.popleft()
                 for nei in graph[i]:
                     if odds[nei] == odds[i]:
-                        return False
+                        return False # Visita a lista de adjacencia e caso encontre um nó com o mesmo valor, o grafo não é bipartido
                     elif not odds[nei]:
                         q.append(nei)
                         odds[nei] = -odds[i]
             return True
 
 
-        for i in range(len(graph)):
+        for i in range(len(graph)): #Percorre todos os nós do grafo. Importante pois o grafo pode ser 'desconexo'.
             if not bipartite(i):
                 return False
         return True
