@@ -4,7 +4,7 @@ from typing import List
 class Solution:
     def maxNumEdgesToRemove(self, n: int, edges: List[List[int]]) -> int:
         """
-        BFS-only approach (no DSU):
+        BFS-only approach.
         1) Usa apenas arestas tipo 3 para rotular componentes compartilhadas (c).
         2) Constrói grafos de componentes H1 (tipo1) e H2 (tipo2).
         3) Verifica conectividade de H1 e H2.
