@@ -4,7 +4,7 @@ from typing import List
 
 class Solution:
     def maxNumEdgesToRemove(self, n: int, edges: List[List[int]]) -> int:
-        # 1) Grafo apenas com arestas do tipo 3
+        # 1) Grafo tipo 3
         g3 = [[] for _ in range(n + 1)]
         for t, u, v in edges:
             if t == 3:
@@ -15,21 +15,26 @@ class Solution:
         comp = [-1] * (n + 1)
         c = self._label_components(g3, n, comp)
 
-        # 3) Construir grafos por componentes para Alice (tipo1) e Bob (tipo2)
+        # 3) Grafos por componentes para Alice (tipo1) e Bob (tipo2)
         h1 = [[] for _ in range(c)]
         h2 = [[] for _ in range(c)]
         for t, u, v in edges:
             cu, cv = comp[u], comp[v]
             if cu == cv:
-                continue  # aresta dentro da mesma componente compartilhada não conecta componentes
+                continue
             if t == 1:
                 h1[cu].append(cv); h1[cv].append(cu)
             elif t == 2:
                 h2[cu].append(cv); h2[cv].append(cu)
-            # t == 3 nunca ligará componentes diferentes, pois comp foi gerado com o próprio tipo 3
 
-        # (temporário) devolvera o número de nós de H1/H2 para debugar
-        return (len(h1), len(h2))  # só para inspecionar
+        # 4) Conectividade: ambos precisam alcançar todos os c componentes
+        if not self._is_connected(h1, c):
+            return -1
+        if not self._is_connected(h2, c):
+            return -1
+
+        # (temporário) retorno provisório
+        return 0
 
     # -------- Helpers --------
     def _label_components(self, g: List[List[int]], n: int, comp: List[int]) -> int:
@@ -47,3 +52,17 @@ class Solution:
                         q.append(v)
             c += 1
         return c
+
+    def _is_connected(self, h: List[List[int]], c: int) -> bool:
+        if c <= 1:
+            return True
+        seen = [False] * c
+        q = deque([0])
+        seen[0] = True
+        while q:
+            u = q.popleft()
+            for v in h[u]:
+                if not seen[v]:
+                    seen[v] = True
+                    q.append(v)
+        return all(seen)
