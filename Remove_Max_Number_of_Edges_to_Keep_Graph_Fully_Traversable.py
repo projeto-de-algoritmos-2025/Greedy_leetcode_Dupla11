@@ -11,11 +11,11 @@ class Solution:
                 g3[u].append(v)
                 g3[v].append(u)
 
-        # 2) Componentes no grafo tipo 3
+        # 2) Componentes in g3
         comp = [-1] * (n + 1)
         c = self._label_components(g3, n, comp)
 
-        # 3) Grafos por componentes para Alice (tipo1) e Bob (tipo2)
+        # 3) H1 (tipo1) e H2 (tipo2) entre componentes
         h1 = [[] for _ in range(c)]
         h2 = [[] for _ in range(c)]
         for t, u, v in edges:
@@ -27,14 +27,19 @@ class Solution:
             elif t == 2:
                 h2[cu].append(cv); h2[cv].append(cu)
 
-        # 4) Conectividade: ambos precisam alcançar todos os c componentes
+        # 4) Conectividade
         if not self._is_connected(h1, c):
             return -1
         if not self._is_connected(h2, c):
             return -1
 
-        # (temporário) retorno provisório
-        return 0
+        # 5) Mínimo de arestas que PRECISO manter:
+        #    - (n - c) arestas tipo 3 para formar a floresta compartilhada
+        #    - (c - 1) para Alice conectar os c componentes
+        #    - (c - 1) para Bob conectar os c componentes
+        needed = n + c - 2
+        removable = len(edges) - needed
+        return removable
 
     # -------- Helpers --------
     def _label_components(self, g: List[List[int]], n: int, comp: List[int]) -> int:
@@ -66,3 +71,4 @@ class Solution:
                     seen[v] = True
                     q.append(v)
         return all(seen)
+
