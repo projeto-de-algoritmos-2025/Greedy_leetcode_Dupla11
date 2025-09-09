@@ -11,6 +11,10 @@
 
 Este repositório tem como objetivo mostrar a resolução de 3 exercícios relacionados a grafos no LeetCode.
 
+## Link para vídeo explicando as questões
+
+[Clique Aqui para ver o vídeo](https://youtu.be/cfQGJ7od6Z8)
+
 ### Exercício 1
 
 [Sum of Nodes with Even-Valued Grandparent](https://leetcode.com/problems/sum-of-nodes-with-even-valued-grandparent/description/) - Dada uma árvore binária, somar todos os nós cujo avô seja um número par.
