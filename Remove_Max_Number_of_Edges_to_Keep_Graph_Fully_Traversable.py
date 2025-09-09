@@ -11,16 +11,28 @@ class Solution:
                 g3[u].append(v)
                 g3[v].append(u)
 
-        # 2) Rotular componentes (0..c-1) no grafo tipo 3
-        comp = [-1] * (n + 1)  # comp[0] não usado
+        # 2) Componentes no grafo tipo 3
+        comp = [-1] * (n + 1)
         c = self._label_components(g3, n, comp)
 
-        # (temporário) retornar quantas componentes achamos
-        return c  # apenas para ver algo funcional por enquanto
+        # 3) Construir grafos por componentes para Alice (tipo1) e Bob (tipo2)
+        h1 = [[] for _ in range(c)]
+        h2 = [[] for _ in range(c)]
+        for t, u, v in edges:
+            cu, cv = comp[u], comp[v]
+            if cu == cv:
+                continue  # aresta dentro da mesma componente compartilhada não conecta componentes
+            if t == 1:
+                h1[cu].append(cv); h1[cv].append(cu)
+            elif t == 2:
+                h2[cu].append(cv); h2[cv].append(cu)
+            # t == 3 nunca ligará componentes diferentes, pois comp foi gerado com o próprio tipo 3
+
+        # (temporário) devolvera o número de nós de H1/H2 para debugar
+        return (len(h1), len(h2))  # só para inspecionar
 
     # -------- Helpers --------
     def _label_components(self, g: List[List[int]], n: int, comp: List[int]) -> int:
-        """BFS para rotular componentes no grafo g (vértices 1..n). Retorna c."""
         c = 0
         for start in range(1, n + 1):
             if comp[start] != -1:
@@ -35,4 +47,3 @@ class Solution:
                         q.append(v)
             c += 1
         return c
-
