@@ -1,9 +1,18 @@
-# solution.py
 from collections import deque
 from typing import List
 
 class Solution:
     def maxNumEdgesToRemove(self, n: int, edges: List[List[int]]) -> int:
+        """
+        BFS-only approach (no DSU):
+        1) Usa apenas arestas tipo 3 para rotular componentes compartilhadas (c).
+        2) Constrói grafos de componentes H1 (tipo1) e H2 (tipo2).
+        3) Verifica conectividade de H1 e H2.
+        4) Se ambos conectam, arestas mínimas necessárias = (n - c) + (c - 1) + (c - 1) = n + c - 2.
+           Removíveis = len(edges) - (n + c - 2).
+
+        Complexidade: O(n + |edges|).
+        """
         # 1) Grafo tipo 3
         g3 = [[] for _ in range(n + 1)]
         for t, u, v in edges:
@@ -11,11 +20,11 @@ class Solution:
                 g3[u].append(v)
                 g3[v].append(u)
 
-        # 2) Componentes in g3
+        # 2) Componentes no grafo tipo 3
         comp = [-1] * (n + 1)
         c = self._label_components(g3, n, comp)
 
-        # 3) H1 (tipo1) e H2 (tipo2) entre componentes
+        # 3) Grafos de componentes (Alice/Bob)
         h1 = [[] for _ in range(c)]
         h2 = [[] for _ in range(c)]
         for t, u, v in edges:
@@ -27,19 +36,15 @@ class Solution:
             elif t == 2:
                 h2[cu].append(cv); h2[cv].append(cu)
 
-        # 4) Conectividade
+        # 4) Conectividade necessária
         if not self._is_connected(h1, c):
             return -1
         if not self._is_connected(h2, c):
             return -1
 
-        # 5) Mínimo de arestas que PRECISO manter:
-        #    - (n - c) arestas tipo 3 para formar a floresta compartilhada
-        #    - (c - 1) para Alice conectar os c componentes
-        #    - (c - 1) para Bob conectar os c componentes
+        # 5) Máximo de arestas removíveis
         needed = n + c - 2
-        removable = len(edges) - needed
-        return removable
+        return len(edges) - needed
 
     # -------- Helpers --------
     def _label_components(self, g: List[List[int]], n: int, comp: List[int]) -> int:
@@ -72,3 +77,8 @@ class Solution:
                     q.append(v)
         return all(seen)
 
+if __name__ == "__main__":
+    s = Solution()
+    print(s.maxNumEdgesToRemove(4, [[3,1,2],[3,2,3],[1,1,3],[1,2,4],[1,1,2],[2,3,4]]))  # 2
+    print(s.maxNumEdgesToRemove(4, [[3,1,2],[3,2,3],[1,1,4],[2,1,4]]))                  # 0
+    print(s.maxNumEdgesToRemove(4, [[3,2,3],[1,1,2],[2,3,4]]))                          # -1
