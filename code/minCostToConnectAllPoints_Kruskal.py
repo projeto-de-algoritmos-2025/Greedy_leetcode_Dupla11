@@ -1,4 +1,4 @@
-class UnionFind: #estrutura do DS
+class UnionFind: #estrutura do DSU
     def __init__(self, n):
         self.parent = list(range(n))
         self.rank = [0]*n
