@@ -1,4 +1,4 @@
-class UnionFind:
+class UnionFind: #estrutura do DS
     def __init__(self, n):
         self.parent = list(range(n))
         self.rank = [0]*n
@@ -27,20 +27,20 @@ class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         n= len(points)
         edges = []
-        for i in range(n):
+        for i in range(n): #gera todas as arestas
             xi, yi = points[i]
             for j in range(i + 1, n):
                 xj, yj = points[j]
                 dist = abs(xi - xj) + abs(yi - yj)
                 edges.append([dist, i, j])
         
-        edges.sort(key=lambda x: x[0])
+        edges.sort(key=lambda x: x[0]) #ordena as arestas por peso crescente
         uf = UnionFind(n)
         res = 0
         for cost, a, b in edges:
             if uf.union(a, b):
                 res += cost
-                if uf.isConnected():
+                if uf.isConnected(): #verifica se todo o grafo ja esta conectado (MST gerada)
                     break           
         return res
         

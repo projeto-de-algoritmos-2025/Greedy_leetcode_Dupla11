@@ -2,7 +2,7 @@ class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         n = len(points)
         adj = {i:[] for i in range(n)}
-        for i in range(n):
+        for i in range(n): #cria uma lista de adjacencia para cada ponto
             xi, yi = points[i]
             for j in range(i + 1, n):
                 xj, yj = points[j]
@@ -13,8 +13,8 @@ class Solution:
         pq = [(0,0)] # [(cost, point)]
         visited = set()
         total = 0
-        while pq:
-            cost, point = heapq.heappop(pq)
+        while len(visited) < n:
+            cost, point = heapq.heappop(pq) #usa uma estrutura de fila prioritaria para visitar sempre o proximo caminho com menor custo
             if point in visited:
                 continue
             visited.add(point)
@@ -24,4 +24,6 @@ class Solution:
                     heapq.heappush(pq, (cost, point))
             
         return total
+    
+    #Esta implementação tem o desempenho pior pois a heap fica muito grande, realizando muitos pushes
         
