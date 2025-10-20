@@ -22,7 +22,8 @@ Qual é o numero máximo de gibis que podem ser comprados com uma quantia de din
 
 
 ### Exercício 2
-[nome]()
+[Brinquedos](https://moj.naquadah.com.br/new/treino/problem/?id=moj-problems.edson-1131)
+Dada uma lista de embalagens que aguentam até certo peso e uma lista de brinquedos com seus respectivos pesos, qual é o número máximo de brinquedos que podem ser embalados sem exceder o limite de peso de cada embalagem?
 
 ### Exercício 3
 [nome]()
