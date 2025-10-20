@@ -31,11 +31,12 @@ int main()
     for (int i = 0, j = 0; i < N && j < M; i++, j++)
     {
         if (embalagens[i] >= brinquedos[j])
+            // se a embalagem comporta o brinquedo, conta mais um brinquedo encaixado
             qtd++;
         else
-            j--; // volta o índice do brinquedo para tentar com a próxima embalagem
-    }
+            // se a embalagem não comporta o brinquedo, tenta a próxima embalagem
+            j--;
 
-    cout << qtd << endl;
-    return 0;
-}
+        cout << qtd << endl;
+        return 0;
+    }
