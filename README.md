@@ -16,7 +16,8 @@ Este repositório tem como objetivo mostrar a resolução de 3 exercícios relac
 [Clique Aqui para ver o vídeo]()
 
 ### Exercício 1
-[nome]()
+[Gibis](https://moj.naquadah.com.br/new/treino/problem/?id=moj-problems.edson-1168)
+Qual é o numero máximo de gibis que podem ser comprados com uma quantia de dinheiro dada e uma lista de preços de gibis disponíveis?
 
 
 
